@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
         });
 
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent intent = new Intent(LoginActivity.this, Main.class);
-                                startActivity(intent);
+                                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
                             } else {
                                 // If sign in fails, display a message to the user.

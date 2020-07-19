@@ -1,15 +1,19 @@
 package com.example.hackathon;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,6 +22,10 @@ import java.util.ArrayList;
 public class Main extends AppCompatActivity {
 
     final String TAG = "MainActivity";
+
+
+    LinearLayout linearLayoutHome, linearLayoutSearch, linearLayoutAdd, linearLayoutLike, linearLayoutProfile;
+
 
 
     RecyclerViewAdapter mAdapter = null ;
@@ -42,54 +50,73 @@ public class Main extends AppCompatActivity {
 
 
 
-        BottomNavigationInit();
-
-    }
 
 
 
-    private void BottomNavigationInit() {
+        linearLayoutHome = findViewById(R.id.linearLayoutHome);
+        linearLayoutSearch = findViewById(R.id.linearLayoutSearch);
+        linearLayoutAdd = findViewById(R.id.linearLayoutAdd);
+        linearLayoutLike =findViewById(R.id.linearLayoutLike);
+        linearLayoutProfile = findViewById(R.id.linearLayoutProfile);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-//       처음에 선택되는 Item 설정.
-        bottomNavigationView.setSelectedItemId(R.id.bottomItemHome);
-//      Item들을 누르면 다른 Activity로 넘어가도록 만들었다.
-//      fragment 를 사용해서 넘어가는 것처럼 보이게하기위해서 overridePendingTransition 메소드를 사용했다.
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        linearLayoutHome.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.bottomItemHome:
-                        return true;
-                    case R.id.bottomItemSearch:
-                        Log.d(TAG, "bottomItemSearch");
-                        Intent searchIntent = new Intent(getApplicationContext(), SearchActivity.class);
-                        startActivity(searchIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.bottomItemAdd:
-                        Log.d(TAG, "bottomItemAdd");
-                        Intent addIntent = new Intent(getApplicationContext(), AddActivity.class);
-                        startActivity(addIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.bottomItemLike:
-                        Log.d(TAG, "bottomItemLike");
-                        Intent likeIntent = new Intent(getApplicationContext(), LikeActivity.class);
-                        startActivity(likeIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.bottomItemMyAccount:
-                        Log.d(TAG, "bottomItemMyAccount");
-                        Intent accountIntent = new Intent(getApplicationContext(), AccountActivity.class);
-                        startActivity(accountIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Main.this,Main.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
             }
         });
+
+        linearLayoutSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Main.this,SearchActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+
+        linearLayoutAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Main.this,AddActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+        linearLayoutLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Main.this,LikeActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+        linearLayoutProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Main.this,ProfileActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+
+
+
+
+
+
+
     }
+
+
+
 
 
     public void addItem(Bitmap userProfileImage, String userProfileNickName , Bitmap userThumbnail , String countLike , String countView, String contents) {
@@ -104,6 +131,30 @@ public class Main extends AppCompatActivity {
         item.setCountView(countView);
         item.setContents(contents);
         mList.add(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // AlertDialog 빌더를 이용해 종료시 발생시킬 창을 띄운다
+        AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
+        alBuilder.setMessage("종료하시겠습니까?");
+
+        // "예" 버튼을 누르면 실행되는 리스너
+        alBuilder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity(); // 현재 액티비티를 종료한다
+            }
+        });
+        // "아니오" 버튼을 누르면 실행되는 리스너
+        alBuilder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return; // 아무런 작업도 하지 않고 돌아간다
+            }
+        });
+        alBuilder.setTitle("프로그램 종료");
+        alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
     }
 
 
