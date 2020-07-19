@@ -46,6 +46,12 @@ public class Main extends AppCompatActivity {
 
 
         addItem(null,"닉넴",null,"라이크","뷰뷰","내요옹");
+
+        addItem(null,"123",null,"라이크","뷰뷰","2");
+
+        addItem(null,"111",null,"라이크","뷰뷰","3");
+
+
         mAdapter.notifyDataSetChanged();
 
 

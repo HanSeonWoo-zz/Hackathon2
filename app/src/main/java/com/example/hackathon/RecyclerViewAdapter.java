@@ -3,6 +3,7 @@ package com.example.hackathon;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.recyclerViewCountLike.setText(item.getCountLike());
         holder.recyclerViewCountView.setText(item.getCountView());
         holder.recyclerViewContents.setText(item.getContents());
+        holder.recyclerViewLikeBtn.setBackgroundResource(item.getLikeBtn());
 
 
 
@@ -57,8 +59,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         buttonHolder.recyclerViewLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String countLike = "ㅁㄴㅇㅁㄴㅇ";
-                mData.get(position).setCountLike(countLike);
+//                String countLike = "ㅁㄴㅇㅁㄴㅇ";
+//                mData.get(position).setCountLike(countLike);
+                mData.get(position).setLikeBtn(R.drawable.like);
                 notifyDataSetChanged();
             }
         });
@@ -86,6 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
+
         ViewHolder(View itemView) {
             super(itemView) ;
 
@@ -98,6 +102,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             recyclerViewCountLike = itemView.findViewById(R.id.recyclerViewCountLike);
             recyclerViewCountView = itemView.findViewById(R.id.recyclerViewCountView);
             recyclerViewContents = itemView.findViewById(R.id.recyclerViewContents);
+
 
 
 

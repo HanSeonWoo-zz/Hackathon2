@@ -1,6 +1,7 @@
 package com.example.hackathon;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 public class RecyclerViewData {
 
@@ -10,6 +11,16 @@ public class RecyclerViewData {
     private String countLike;
     private String countView;
     private String contents;
+
+    private int likeBtn;
+
+    public int getLikeBtn() {
+        return likeBtn;
+    }
+
+    public void setLikeBtn(int likeBtn) {
+        this.likeBtn = likeBtn;
+    }
 
     public Bitmap getUserImage() {
         return userImage;
