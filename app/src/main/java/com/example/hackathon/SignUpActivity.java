@@ -18,6 +18,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Hashtable;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -26,15 +30,19 @@ public class SignUpActivity extends AppCompatActivity {
     EditText inputemail, inputpassword, inputname;
     String email, password, name;
     private FirebaseAuth mAuth;
+    FirebaseDatabase database;
+    String defaultProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+         defaultProfile = "null";
+
+        database = FirebaseDatabase.getInstance();
 
         //파베객체 초기화
         mAuth = FirebaseAuth.getInstance();
-
         signupBtn = findViewById(R.id.btnSignIn);
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +101,28 @@ public class SignUpActivity extends AppCompatActivity {
                                     });
                             Toast.makeText(SignUpActivity.this, "회원가입성공!",
                                     Toast.LENGTH_SHORT).show();
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("user").child(user.getUid());
+
+
+                            Hashtable<String, String> profiles
+                                    = new Hashtable<String, String>();
+
+
+
+                            profiles.put("email", email);
+                            profiles.put("nicname", name);
+                            profiles.put("userUid", user.getUid());
+
+
+
+                            myRef.setValue(profiles);
+
+
+
+
+
 
 
                             //회원가입하면서 입력된 값지워버리기
