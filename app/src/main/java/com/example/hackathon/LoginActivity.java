@@ -2,46 +2,96 @@ package com.example.hackathon;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
 
-    Button btnSignIn;
-
+    Button btnSignIn, btnSignUp;
+    EditText inputemail, inputpassword;
+    String email, password;
+    private FirebaseAuth mAuth;
     RecyclerView recyclerView;
 
-    Button btnSiginUp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnSiginUp = findViewById(R.id.btnSignUp);
-        btnSiginUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signUpIntent = new Intent(LoginActivity.this,SignUpActivity.class);
-                startActivity(signUpIntent);
-            }
-        });
+
+        mAuth = FirebaseAuth.getInstance();
+
 
         btnSignIn = findViewById(R.id.btnSignIn);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,Main.class);
+                signin();
+            }
+        });
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
+
+
+    }
+
+    private void signin() {
+        //연결하기
+        inputemail = findViewById(R.id.editTextId);
+        inputpassword = findViewById(R.id.editTextPassword);
+        email = inputemail.getText().toString();
+        password = inputpassword.getText().toString();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            Toast.makeText(LoginActivity.this, "로그인성공!",
+                                    Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(LoginActivity.this, Main.class);
+                            startActivity(intent);
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "이메일이나 비밀번호가 올바르지 않습니다!",
+                                    Toast.LENGTH_SHORT).show();
+
+                            // ...
+                        }
+
+                        // ...
+                    }
+                });
+
+
 
 
     }
