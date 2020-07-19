@@ -5,28 +5,28 @@
         android:id="@+id/bottomItemHome"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="home"/>
+        android:title="Home"/>
     <item
         android:id="@+id/bottomItemSearch"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="search"/>
+        android:icon="@drawable/ic_search"
+        android:title="Search"/>
 
     <item
         android:id="@+id/bottomItemAdd"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="add"/>
+        android:icon="@drawable/ic_add"
+        android:title="Add"/>
 
     <item
         android:id="@+id/bottomItemLike"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="like"/>
+        android:icon="@drawable/ic_like"
+        android:title="Like"/>
     <item
         android:id="@+id/bottomItemMyAccount"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="myAccount"/>
+        android:icon="@drawable/ic_account"
+        android:title="Profile"/>
 
 </menu>

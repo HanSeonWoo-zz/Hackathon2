@@ -23,10 +23,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void BottomNavigationInit() {
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
 //       처음에 선택되는 Item 설정.
-        bottomNavigationView.setSelectedItemId(R.id.bottomItemHome);
+        bottomNavigationView.setSelectedItemId(R.id.bottomItemSearch);
 //      Item들을 누르면 다른 Activity로 넘어가도록 만들었다.
 //      fragment 를 사용해서 넘어가는 것처럼 보이게하기위해서 overridePendingTransition 메소드를 사용했다.
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

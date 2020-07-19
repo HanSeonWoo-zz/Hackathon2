@@ -1,12 +1,12 @@
 package com.example.hackathon;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,6 +18,7 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
         BottomNavigationInit();
 
     }
@@ -26,7 +27,7 @@ public class AddActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
 //       처음에 선택되는 Item 설정.
-        bottomNavigationView.setSelectedItemId(R.id.bottomItemHome);
+        bottomNavigationView.setSelectedItemId(R.id.bottomItemAdd);
 //      Item들을 누르면 다른 Activity로 넘어가도록 만들었다.
 //      fragment 를 사용해서 넘어가는 것처럼 보이게하기위해서 overridePendingTransition 메소드를 사용했다.
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
