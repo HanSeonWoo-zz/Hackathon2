@@ -20,6 +20,7 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationInit();
+
     }
 
 
@@ -39,28 +40,28 @@ public class Main extends AppCompatActivity {
                         return true;
                     case R.id.bottomItemSearch:
                         Log.d(TAG, "bottomItemSearch");
-                        Intent wordsIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(wordsIntent);
+                        Intent searchIntent = new Intent(getApplicationContext(), SearchActivity.class);
+                        startActivity(searchIntent);
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.bottomItemAdd:
                         Log.d(TAG, "bottomItemAdd");
-//                        songsIntent = new Intent(getApplicationContext(), SongsActivity.class);
-//                        startActivity(songsIntent);
-//                        overridePendingTransition(0, 0);
-//                        return true;
+                        Intent addIntent  = new Intent(getApplicationContext(), AddActivity.class);
+                        startActivity(addIntent);
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.bottomItemLike:
                         Log.d(TAG, "bottomItemLike");
-//                        mapsIntent = new Intent(getApplicationContext(), MapsActivity.class);
-//                        startActivity(mapsIntent);
-//                        overridePendingTransition(0, 0);
-//                        return true;
+                        Intent likeIntent  = new Intent(getApplicationContext(), LikeActivity.class);
+                        startActivity(likeIntent);
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.bottomItemMyAccount:
                         Log.d(TAG, "bottomItemMyAccount");
-//                        colorsIntent = new Intent(getApplicationContext(), ColorsActivity.class);
-//                        startActivity(colorsIntent);
-//                        overridePendingTransition(0, 0);
-//                        return true;
+                        Intent accountIntent  = new Intent(getApplicationContext(), AccountActivity.class);
+                        startActivity(accountIntent);
+                        overridePendingTransition(0, 0);
+                        return true;
                 }
                 return false;
             }

@@ -24,7 +24,6 @@
         android:hint="검색"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewSearch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.559"
         app:layout_constraintStart_toEndOf="@+id/imageViewSearch"
         app:layout_constraintTop_toTopOf="@+id/imageViewSearch" />
 </androidx.constraintlayout.widget.ConstraintLayout>
