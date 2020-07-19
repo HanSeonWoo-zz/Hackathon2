@@ -2,22 +2,43 @@ package com.example.hackathon;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class Main extends AppCompatActivity {
 
     final String TAG = "MainActivity";
+
+
+    RecyclerViewAdapter mAdapter = null ;
+    ArrayList<RecyclerViewData> mList = new ArrayList<RecyclerViewData>();
+    RecyclerView mRecyclerView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mRecyclerView = findViewById(R.id.recyclerView) ;
+        mAdapter = new RecyclerViewAdapter(mList) ;
+        mRecyclerView.setAdapter(mAdapter) ;
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
+
+
+        addItem(null,"닉넴",null,"라이크","뷰뷰","내요옹");
+        mAdapter.notifyDataSetChanged();
 
 
 
@@ -69,4 +90,22 @@ public class Main extends AppCompatActivity {
             }
         });
     }
+
+
+    public void addItem(Bitmap userProfileImage, String userProfileNickName , Bitmap userThumbnail , String countLike , String countView, String contents) {
+
+        //리절트로 가져온 값 여기에다가 넣어서 표시해주면된다. 이 메소드도 리절트 메소드에다가 넣어야함
+
+        RecyclerViewData item = new RecyclerViewData();
+//        item.setUserImage(userProfileImage);
+        item.setUserNickName(userProfileNickName);
+//        item.setYouTubeThumbnail(userThumbnail);
+        item.setCountLike(countLike);
+        item.setCountView(countView);
+        item.setContents(contents);
+        mList.add(item);
+    }
+
+
+
 }
