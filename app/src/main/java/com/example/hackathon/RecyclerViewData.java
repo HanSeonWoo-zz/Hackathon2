@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 public class RecyclerViewData {
 
-    private Bitmap userImage3;
+    private Bitmap userImage;
     private String userNickName;
     private Bitmap youTubeThumbnail;
     private String countLike;
@@ -12,11 +12,11 @@ public class RecyclerViewData {
     private String contents;
 
     public Bitmap getUserImage() {
-        return userImage3;
+        return userImage;
     }
 
     public void setUserImage(Bitmap userImage) {
-        this.userImage3 = userImage;
+        this.userImage = userImage;
     }
 
     public String getUserNickName() {

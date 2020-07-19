@@ -22,9 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
-
-
         btnSignIn = findViewById(R.id.btnSignIn);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
