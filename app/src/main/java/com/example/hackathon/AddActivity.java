@@ -1,25 +1,25 @@
 package com.example.hackathon;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class SearchActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity {
 
-    final String TAG = "SearchActivity";
+    final String TAG = "AddActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-
+        setContentView(R.layout.activity_add);
         BottomNavigationInit();
+
     }
 
     private void BottomNavigationInit() {
@@ -34,19 +34,18 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.bottomItemHome:
-                        Log.d(TAG, "bottomItemSearch");
-                        Intent homeIntent = new Intent(getApplicationContext(), Main.class);
+                        Intent homeIntent  = new Intent(getApplicationContext(), Main.class);
                         startActivity(homeIntent);
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.bottomItemSearch:
                         Log.d(TAG, "bottomItemSearch");
+                        Intent searchIntent = new Intent(getApplicationContext(), SearchActivity.class);
+                        startActivity(searchIntent);
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.bottomItemAdd:
                         Log.d(TAG, "bottomItemAdd");
-                        Intent addIntent  = new Intent(getApplicationContext(), AddActivity.class);
-                        startActivity(addIntent);
-                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.bottomItemLike:
                         Log.d(TAG, "bottomItemLike");
