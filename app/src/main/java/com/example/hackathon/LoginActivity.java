@@ -39,11 +39,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
         btnSignIn = findViewById(R.id.btnSignIn);
+        btnSignUp = findViewById(R.id.btnSignUp);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signin();
+//                signin();
+                Intent intent = new Intent(LoginActivity.this,Main.class);
+                startActivity(intent);
             }
         });
 
