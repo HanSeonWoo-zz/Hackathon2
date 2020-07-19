@@ -1,4 +1,8 @@
 package com.example.hackathon;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -6,15 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class LikeActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
-
-    final String TAG = "LikeActivity";
+    final String TAG = "AccountActivity";
     LinearLayout linearLayoutHome, linearLayoutSearch, linearLayoutAdd, linearLayoutLike, linearLayoutProfile;
 
 
@@ -22,7 +22,7 @@ public class LikeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_like);
+        setContentView(R.layout.activity_profile);
 
         linearLayoutHome = findViewById(R.id.linearLayoutHome);
         linearLayoutSearch = findViewById(R.id.linearLayoutSearch);
@@ -34,7 +34,7 @@ public class LikeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LikeActivity.this,Main.class);
+                Intent intent = new Intent(ProfileActivity.this,Main.class);
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
             }
@@ -44,7 +44,7 @@ public class LikeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LikeActivity.this,SearchActivity.class);
+                Intent intent = new Intent(ProfileActivity.this,SearchActivity.class);
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
             }
@@ -54,7 +54,7 @@ public class LikeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LikeActivity.this,AddActivity.class);
+                Intent intent = new Intent(ProfileActivity.this,AddActivity.class);
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
             }
@@ -63,7 +63,7 @@ public class LikeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LikeActivity.this,LikeActivity.class);
+                Intent intent = new Intent(ProfileActivity.this,LikeActivity.class);
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
             }
@@ -72,7 +72,7 @@ public class LikeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LikeActivity.this,ProfileActivity.class);
+                Intent intent = new Intent(ProfileActivity.this,ProfileActivity.class);
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
             }
@@ -82,4 +82,3 @@ public class LikeActivity extends AppCompatActivity {
 
 
     }
-

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,56 +15,72 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class AddActivity extends AppCompatActivity {
 
     final String TAG = "AddActivity";
+    LinearLayout linearLayoutHome, linearLayoutSearch, linearLayoutAdd, linearLayoutLike, linearLayoutProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        BottomNavigationInit();
 
-    }
+        linearLayoutHome = findViewById(R.id.linearLayoutHome);
+        linearLayoutSearch = findViewById(R.id.linearLayoutSearch);
+        linearLayoutAdd = findViewById(R.id.linearLayoutAdd);
+        linearLayoutLike = findViewById(R.id.linearLayoutLike);
+        linearLayoutProfile = findViewById(R.id.linearLayoutProfile);
 
-    private void BottomNavigationInit() {
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-//       처음에 선택되는 Item 설정.
-        bottomNavigationView.setSelectedItemId(R.id.bottomItemAdd);
-//      Item들을 누르면 다른 Activity로 넘어가도록 만들었다.
-//      fragment 를 사용해서 넘어가는 것처럼 보이게하기위해서 overridePendingTransition 메소드를 사용했다.
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        linearLayoutHome.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.bottomItemHome:
-                        Intent homeIntent  = new Intent(getApplicationContext(), Main.class);
-                        startActivity(homeIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.bottomItemSearch:
-                        Log.d(TAG, "bottomItemSearch");
-                        Intent searchIntent = new Intent(getApplicationContext(), SearchActivity.class);
-                        startActivity(searchIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.bottomItemAdd:
-                        Log.d(TAG, "bottomItemAdd");
-                        return true;
-                    case R.id.bottomItemLike:
-                        Log.d(TAG, "bottomItemLike");
-                        Intent likeIntent  = new Intent(getApplicationContext(), LikeActivity.class);
-                        startActivity(likeIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.bottomItemMyAccount:
-                        Log.d(TAG, "bottomItemMyAccount");
-                        Intent accountIntent  = new Intent(getApplicationContext(), AccountActivity.class);
-                        startActivity(accountIntent);
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
+            public void onClick(View v) {
+
+                Intent intent = new Intent(AddActivity.this, Main.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
             }
         });
+
+        linearLayoutSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(AddActivity.this, SearchActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+
+        linearLayoutAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(AddActivity.this, AddActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+        linearLayoutLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(AddActivity.this, LikeActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+        linearLayoutProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(AddActivity.this, ProfileActivity.class);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            }
+        });
+
+
     }
+
+
 }
+

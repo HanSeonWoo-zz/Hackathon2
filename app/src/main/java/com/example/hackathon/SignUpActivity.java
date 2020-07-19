@@ -98,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
                             //회원가입하면서 입력된 값지워버리기
                             inputemail.setText(""); inputpassword.setText(""); inputname.setText("");
                             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
 
 
 

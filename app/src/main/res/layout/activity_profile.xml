@@ -4,28 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    android:background="@android:color/darker_gray">
 
 
     <ImageView
-        android:id="@+id/imageViewSearch"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:id="@+id/imageViewProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_search" />
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
-    <EditText
-        android:id="@+id/editTextSearch"
-        android:layout_width="320dp"
+    <Button
+        android:id="@+id/btnNickNameEdit"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="검색"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewSearch"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:text="닉네임 수정"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewSearch"
-        app:layout_constraintTop_toTopOf="@+id/imageViewSearch" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewProfileImage" />
+
+    <Button
+        android:id="@+id/btnMyLog"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="내가 쓴 글"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnNickNameEdit" />
+
+    <Button
+        android:id="@+id/btnLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="로그아웃"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMyLog" />
 
     <LinearLayout
         app:layout_constraintVertical_bias="1"
@@ -87,7 +113,7 @@
                     android:layout_width="70dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/search_select"></ImageView>
+                    android:src="@drawable/search_default"></ImageView>
 
             </LinearLayout>
 
@@ -139,7 +165,7 @@
                     android:layout_width="70dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/profile_default"></ImageView>
+                    android:src="@drawable/profile_select"></ImageView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
