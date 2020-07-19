@@ -137,8 +137,8 @@ public class AddActivity extends AppCompatActivity {
 
 
 
-        BottomNavigationInit();
-    }
+
+    
 
         linearLayoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
