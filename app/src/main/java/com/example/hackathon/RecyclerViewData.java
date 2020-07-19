@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 public class RecyclerViewData {
 
-    private Bitmap userImage;
     private String userNickName;
     private Bitmap youTubeThumbnail;
     private String countLike;
