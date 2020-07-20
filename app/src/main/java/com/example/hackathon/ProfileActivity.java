@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -60,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
     AlertDialog alert;
     private String imagePath = "/sdcard/Camera/test.jpg";
     private File originalFile;
+    File localFile;
 
 
     @Override
@@ -101,7 +103,35 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
     });
+//파이어베이스 스토리지에서 이미지 불러와서 프로필이미지뷰에다가 불러오는 코드
         mStorageRef = FirebaseStorage.getInstance().getReference();
+         localFile = null;
+        try {
+
+            localFile = File.createTempFile("images", "jpg");
+            StorageReference riversRef = mStorageRef.child("users").child(getEmail).child("profileImage.jpg");
+            riversRef.getFile(localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            // Successfully downloaded data to local file
+                            // ...
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            profileImg.setImageBitmap(bitmap);
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle failed download
+                    // ...
+                }
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         linearLayoutHome = findViewById(R.id.linearLayoutHome);
@@ -365,7 +395,33 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+//승원씨를 위한 파이어베이스 스토리지에서 이미지 불러오기
+/*
+  mStorageRef = FirebaseStorage.getInstance().getReference();
+         localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+            StorageReference riversRef = mStorageRef.child("users").child(getEmail).child("profileImage.jpg");
+            riversRef.getFile(localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            // 불러오기 성공했을 때 로직
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            profileImg.setImageBitmap(bitmap);
 
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle failed download
+                    // ...
+                }
+            });
+
+
+
+ */
 
 
 
