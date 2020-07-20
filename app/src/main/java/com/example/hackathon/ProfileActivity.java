@@ -27,11 +27,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,18 +54,21 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String imageFilePath, mCurrentPhotoPath;
     Uri photoURI, albumURI = null;
+    Uri cameraUri;
     private Uri photoUri;
     private File tempFile;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int PICK_FROM_CAMERA = 2;
     AlertDialog alert;
+    private String imagePath = "/sdcard/Camera/test.jpg";
+    private File originalFile;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        originalFile = new File(imagePath);
         //파베객체초기화
         mAuth = FirebaseAuth.getInstance();
         //유저정보불러오기
@@ -219,6 +225,24 @@ public class ProfileActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(ProfileActivity.this.getContentResolver(),image);
                 profileImg.setImageBitmap(bitmap);
                 //여기는 스토리지로 이미지저장하는거 코드추가해야함.
+              //  Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
+                StorageReference riversRef = mStorageRef.child("users").child(getEmail).child("profileImage.jpg");
+                riversRef.putFile(image)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // Get a URL to the uploaded content
+                             //  Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Log.d(TAG, taskSnapshot.toString());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                                // ...
+                            }
+                        });
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -243,8 +267,8 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 exifDegree = 0;
             }
-
             ((ImageView)findViewById(R.id.imageViewProfileImage)).setImageBitmap(rotate(bitmap, exifDegree));
+
 
 
 
@@ -262,6 +286,7 @@ public class ProfileActivity extends AppCompatActivity {
                 storageDir          /* directory */
         );
         imageFilePath = image.getAbsolutePath();
+
         return image;
     }
 
