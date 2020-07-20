@@ -3,6 +3,7 @@ package com.example.hackathon;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -24,6 +25,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int pos);
+    }
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
+    }
+
+
 
     DatabaseReference writeRef = null;
     DatabaseReference keyRef = null;
@@ -106,6 +119,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Toast.makeText(v.getContext(), "좋아요는 한번만 할 수 있습니다", Toast.LENGTH_SHORT).show();
                 }
 
+
+            }
+        });
+
+        buttonHolder.recyclerViewUserThumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "되냐?"+position, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(v.getContext(),YoutubePlayerActivity.class);
+
+                intent.putExtra("video",mData.get(position).getYoutubeUrl());
+
+                v.getContext().startActivity(intent);
 
             }
         });
