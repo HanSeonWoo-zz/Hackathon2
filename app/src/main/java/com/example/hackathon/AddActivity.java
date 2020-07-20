@@ -226,7 +226,6 @@ public class AddActivity extends AppCompatActivity {
 
 
 
-
                 //글쓰기버튼 눌럿을때 로직
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("write").push();
@@ -251,9 +250,6 @@ public class AddActivity extends AppCompatActivity {
 
 
                 myRef.setValue(profiles);
-
-                //인텐트처리해야되고
-
                 inputText.setText("");
                 inputTubeUrl.setText("");
 
@@ -265,16 +261,6 @@ public class AddActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
-
-
-
 
 
 
