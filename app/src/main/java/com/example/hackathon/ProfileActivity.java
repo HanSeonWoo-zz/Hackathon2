@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,16 +33,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Hashtable;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -62,6 +67,9 @@ public class ProfileActivity extends AppCompatActivity {
     private String imagePath = "/sdcard/Camera/test.jpg";
     private File originalFile;
     File localFile;
+    String upLoadImg;
+    FirebaseDatabase database;
+
 
 
     @Override
@@ -272,6 +280,26 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         });
 
+                upLoadImg = BitMapToString(bitmap);
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("user").child(user.getUid());
+
+
+                Hashtable<String, String> profiles
+                        = new Hashtable<String, String>();
+
+                profiles.put("email", getEmail);
+                profiles.put("nicname", getNicname);
+                profiles.put("userUid", user.getUid());
+                profiles.put("profileImage", upLoadImg);
+
+
+
+                myRef.setValue(profiles);
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -393,6 +421,8 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
 
+
+
     }
 
 //승원씨를 위한 파이어베이스 스토리지에서 이미지 불러오기
@@ -423,6 +453,15 @@ public class ProfileActivity extends AppCompatActivity {
 
  */
 
+    public String BitMapToString(Bitmap bitmap){
 
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+
+        return temp;
+
+    }
 
 }

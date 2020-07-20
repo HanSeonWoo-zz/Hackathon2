@@ -114,6 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                             profiles.put("email", email);
                             profiles.put("nicname", name);
                             profiles.put("userUid", user.getUid());
+                            profiles.put("profileImage", "");
 
 
 

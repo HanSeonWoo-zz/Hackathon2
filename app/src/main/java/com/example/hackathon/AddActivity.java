@@ -23,8 +23,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +62,7 @@ public class AddActivity extends AppCompatActivity {
     String youtubeApi = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDbSVd5uPDIG_1G6xgmZX-qL0UHnvAanBE&part=snippet&q=";
     DatabaseReference imgRef;
     String myKey;
+    String profileImg;
 
 
     @Override
@@ -189,11 +193,6 @@ public class AddActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-
-
-
-
-
           user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url
@@ -209,6 +208,23 @@ public class AddActivity extends AppCompatActivity {
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
         }
+        //데이터베이스에서 프로필이미지스트링 불러오기
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("user").child(userUid);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d(TAG, "데이터: "+dataSnapshot.getValue());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         //글쓰기버튼
         Button btnSignIn = findViewById(R.id.btnSignIn);
@@ -239,6 +255,7 @@ public class AddActivity extends AppCompatActivity {
 
 
                 profiles.put("email", email);
+                profiles.put("profileImage", profileImg);
                 profiles.put("nickName", name);
                 profiles.put("contents", text);
                 profiles.put("youtubeUrl", youTubeUrl);
