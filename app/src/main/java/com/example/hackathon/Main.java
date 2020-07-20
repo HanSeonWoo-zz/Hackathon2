@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +34,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,7 +71,7 @@ public class Main extends AppCompatActivity {
 
 
     LinearLayout linearLayoutHome, linearLayoutSearch, linearLayoutAdd, linearLayoutLike, linearLayoutProfile;
-
+    Bitmap bitmapUserImage = null;
 
     RecyclerViewAdapter mAdapter = null;
     ArrayList<RecyclerViewData> mList = new ArrayList<RecyclerViewData>();
@@ -73,15 +79,23 @@ public class Main extends AppCompatActivity {
     DatabaseReference writeRef = null;
     Handler handler = null;
 
+    StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+    File localFile = null;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-
         mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+        final String userEmail = user.getEmail();
+
+        Log.d("이메일체크",userEmail);
+
         writeRef = FirebaseDatabase.getInstance().getReference();
         writeRef = writeRef.child("write").getRef();
 
@@ -91,6 +105,32 @@ public class Main extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        try {
+            localFile = File.createTempFile("images", "jpg");
+            StorageReference riversRef = mStorageRef.child("users").child(userEmail).child("profileImage.jpg");
+            final File finalLocalFile = localFile;
+            riversRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    Log.d("확인넘어가는거","확인넘어가는거");
+                    bitmapUserImage = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
+                    Log.d("비트맵",bitmapUserImage.toString());
+//                            bitmapUserImage = bitmap;
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("실패이유",e.toString());
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         writeRef.addChildEventListener(new ChildEventListener() {
@@ -109,23 +149,13 @@ public class Main extends AppCompatActivity {
                 String stringThumbnail = writeData.getThumbnail();
 
 
-
                 Bitmap bitmap = StringToBitMap(stringThumbnail);
 
-                Log.d("왜또",stringThumbnail);
 
-                Bitmap bitmapThumbnail = bitmap;
+//                Log.d("비트맵확인2",bitmapUserImage.toString());
+                addItem(bitmapUserImage, nickName, bitmap, countLike, contents, youtubeUrl, key);
 
-
-
-
-                //러너블실행
-
-                Bitmap profileImage;
-
-                addItem(null, nickName, bitmap, countLike, contents, youtubeUrl, key);
                 mAdapter.notifyDataSetChanged();
-
 
 
             }
@@ -233,7 +263,7 @@ public class Main extends AppCompatActivity {
         //리절트로 가져온 값 여기에다가 넣어서 표시해주면된다. 이 메소드도 리절트 메소드에다가 넣어야함
 
         RecyclerViewData item = new RecyclerViewData();
-//        item.setUserImage(userProfileImage);
+        item.setUserImage(userProfileImage);
         item.setUserNickName(userProfileNickName);
         item.setYouTubeThumbnail(userThumbnail);
         item.setCountLike(countLike);
@@ -267,18 +297,16 @@ public class Main extends AppCompatActivity {
         alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
     }
 
-    public Bitmap StringToBitMap(String encodedString){
+    public Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
     }
-
-
 
 
 }
