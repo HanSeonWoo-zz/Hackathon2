@@ -9,8 +9,25 @@ public class RecyclerViewData {
     private String userNickName;
     private Bitmap youTubeThumbnail;
     private String countLike;
-    private String countView;
     private String contents;
+    private String youtubeUrl;
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getYoutubeUrl() {
+        return youtubeUrl;
+    }
+
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
+    }
 
     private int likeBtn;
 
@@ -54,13 +71,6 @@ public class RecyclerViewData {
         this.countLike = countLike;
     }
 
-    public String getCountView() {
-        return countView;
-    }
-
-    public void setCountView(String countView) {
-        this.countView = countView;
-    }
 
     public String getContents() {
         return contents;

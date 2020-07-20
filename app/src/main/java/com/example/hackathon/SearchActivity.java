@@ -25,8 +25,6 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
 
-
-
         linearLayoutHome = findViewById(R.id.linearLayoutHome);
         linearLayoutSearch = findViewById(R.id.linearLayoutSearch);
         linearLayoutAdd = findViewById(R.id.linearLayoutAdd);
