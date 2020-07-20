@@ -53,9 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
     private String imageFilePath, mCurrentPhotoPath;
-    Uri photoURI, albumURI = null;
     Uri cameraUri;
-    private Uri photoUri;
     private File tempFile;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int PICK_FROM_CAMERA = 2;
@@ -181,7 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 } else if (item == 1) { //카메라찍은 사진가져오기
                     //카메라함수
-                    sendTakePhotoIntent();
+                   sendTakePhotoIntent();
 
                 } else { //기본화면으로하기
 
@@ -249,6 +247,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }else if(requestCode==PICK_FROM_CAMERA){
             alert.dismiss();
+
+
+
+
+
             Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
             ExifInterface exif = null;
 
@@ -267,6 +270,8 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 exifDegree = 0;
             }
+            galleryAddPic();
+
             ((ImageView)findViewById(R.id.imageViewProfileImage)).setImageBitmap(rotate(bitmap, exifDegree));
 
 
@@ -291,11 +296,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     //사진찍기
+
     private void sendTakePhotoIntent() {
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
             File photoFile = null;
+
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
@@ -303,7 +311,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             if (photoFile != null) {
-                photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+
+                Uri photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, PICK_FROM_CAMERA);
             }
@@ -327,5 +336,37 @@ public class ProfileActivity extends AppCompatActivity {
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imageFilePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+
+        //  Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
+        StorageReference riversRef = mStorageRef.child("users").child(getEmail).child("profileImage.jpg");
+        riversRef.putFile(contentUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        //  Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        Log.d(TAG, taskSnapshot.toString());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+
+    }
+
+
+
+
 
 }
